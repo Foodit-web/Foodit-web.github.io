@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Foodit</title>
+<link href="css/css2" rel="stylesheet"/>
+<!-- Falcon Tab Icon -->
+<link href="https://i.postimg.cc/DwTNfscc/foodit-Logo.png" rel="icon" type="image/png"/>
+<style>
+    body {
+      margin: 0;
+      font-family: 'Titan One', cursive;
+      display: flex;
+      flex-wrap: wrap;
+      min-height: 100vh;
+      background: #fff8f0;
+    }
+
+    .left, .right {
+      box-sizing: border-box;
+      padding: 60px;
+    }
+
+    .left {
+      width: 50%;
+      background: linear-gradient(135deg, #ff7f11, #ffae00);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .left h1 {
+      font-size: 56px;
+      margin: 0 0 10px;
+    }
+
+    .left p {
+      font-size: 18px;
+      line-height: 1.5;
+      color: #ffeacc;
+      margin: 20px 0 40px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: #ff4e00;
+      color: #fff;
+      padding: 14px 28px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #d63b00;
+    }
+
+    .discord-btn {
+      background: #00a676;
+    }
+
+    .discord-btn:hover {
+      background: #007a55;
+    }
+
+    .pronounce {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #ffeacc;
+    }
+
+    .footer {
+      font-size: 12px;
+      color: #ffeacc;
+      margin-top: auto;
+    }
+
+    .right {
+      width: 50%;
+      background: linear-gradient(135deg, #ff7f11, #ffae00);
+      display: flex;
+      flex-wrap: wrap;
+      align-content: center;
+      justify-content: center;
+      padding: 40px;
+      gap: 20px;
+    }
+
+    .icon {
+      width: 90px;
+      height: 90px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .version {
+      position: absolute;
+      bottom: 10px;
+      right: 20px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    /* Mobile & tablet responsiveness */
+    @media (max-width: 900px) {
+      body {
+        flex-direction: column;
+      }
+
+      .left, .right {
+        width: 100%;
+        padding: 40px;
+      }
+
+      .left h1 {
+        font-size: 42px;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .right {
+        gap: 12px;
+      }
+
+      .icon {
+        width: 70px;
+        height: 70px;
+      }
+
+      .version {
+        position: static;
+        text-align: center;
+        margin-top: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .left h1 {
+        font-size: 32px;
+      }
+
+      .left p {
+        font-size: 16px;
+      }
+
+      .btn {
+        font-size: 16px;
+        padding: 12px 20px;
+      }
+
+      .pronounce {
+        font-size: 12px;
+      }
+
+      .footer {
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="left">
+<h1>Foodit</h1>
+<h1>First Food Private Server</h1>
+<p>The first ever open-source Foodit platform created by Blooket Warrior, coded fresh in HTML, CSS, and JavaScript.</p>
+<div class="buttons">
+<a class="btn" href="/signup.html">Signup</a>
+<a class="btn" href="/login.html">Login</a>
+<a class="btn discord-btn" href="https://discord.gg/rfHHYjhA3H" target="_blank">Discord</a>
+<a class="btn" href="/credits.html">Credits</a>
+</div>
+<div class="pronounce">ð Pronunciation ("Food-it")</div>
+<div class="footer">We are not affiliated with Blooket in any way. <br/> Foodit Â© 2025 All Rights Reserved.</div>
+</div>
+<div class="right">
+<div class="icon"><img alt="Strawberry Milk" src="https://cdn.glitch.global/36ec2602-304b-444b-8f2f-08c65c92bbc0/thumbnails%2Fthumbnails_Strawberry%20Milk.png?1750440367893"/></div>
+<div class="icon"><img alt="Warriet Milk" src="https://cdn.glitch.global/36ec2602-304b-444b-8f2f-08c65c92bbc0/thumbnails%2Fthumbnails_Warriet%20Milk.png?1750440415086"/></div>
+<div class="icon"><img alt="Moon" src="https://cdn.glitch.global/36ec2602-304b-444b-8f2f-08c65c92bbc0/thumbnails%2Fmoon.png?1750451519920"/></div>
+<div class="icon"><img alt="Astronaut" src="https://cdn.glitch.global/36ec2602-304b-444b-8f2f-08c65c92bbc0/thumbnails%2Fastronaut.png?1750451907761"/></div>
+<div class="icon"><img alt="King Pig" src="https://i.postimg.cc/jSssbtjq/kingPig.png"/></div>
+<div class="icon"><img alt="SpeedGoodAlr" src="https://i.postimg.cc/t7T7JQH8/speed-Good-Alr.png"/></div>
+<div class="icon"><img alt="Blooket Warrior" src="https://i.postimg.cc/htNhD5Z3/Blooket-Warrior.gif"/></div>
+<div class="icon"><img alt="Space Donut" src="https://i.postimg.cc/CL9zy8Ky/Space-Donut.webp"/></div>
+<div class="icon"><img alt="Strawberry Glazed Donut" src="https://i.postimg.cc/B6Sr7h9q/Strawberry-Glazed-Donut.webp"/></div>
+</div>
+<div class="version">
+    Running Foodit v1.5.0<br/>
+<a href="terms.html" style="color:#666;text-decoration:underline;">Terms of Service</a>
+</div>
+</body>
+</html>
